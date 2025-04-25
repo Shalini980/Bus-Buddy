@@ -75,7 +75,7 @@ const Home = () => {
               className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3' type="text" placeholder='Enter your destination'/>
           </form>
           </div>
-          <div ref={panelRef} className='bg-blue-500 h-0'>
+          <div ref={panelRef} className='bg-white h-0'>
                       <LocationSearchPanel/>
           </div>
       </div>
