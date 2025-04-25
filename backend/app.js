@@ -1,3 +1,4 @@
+
 const dotenv=require('dotenv'); //load the environment variables
 dotenv.config();
 
@@ -8,6 +9,7 @@ const cookieParser=require('cookie-parser'); // parses cookies attached to the c
 const connectToDb = require('./db/db');
 const userRoutes= require('./routes/user.routes');
 const captainRoutes= require('./routes/captain.routes');
+const rideRoutes=require('./routes/ride.routes');
 connectToDb();
 
 app.use(cors());    
@@ -21,5 +23,6 @@ app.get('/',(req,res)=>{
 
 app.use('/users',userRoutes);
 app.use('/captains',captainRoutes);
+app.use('/rides',rideRoutes);
 
 module.exports=app;
