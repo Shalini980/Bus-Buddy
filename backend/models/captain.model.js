@@ -27,8 +27,10 @@ const captainSchema = new mongoose.Schema({
         minlength: [6,'Password should be at least 6 characters'],
         select: false
     },
-    socketId:{
+    socketId: {
         type: String,
+        unique: true,  // Add this explicitly
+        sparse: true   // Critical: allows multiple nulls
     },
     bus:{
         plate:{

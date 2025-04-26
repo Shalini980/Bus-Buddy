@@ -1,20 +1,38 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../assets/logo.png'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { CaptainDataContext } from '../context/CaptainContext'
 const CaptainLogin = () => {
   const[email,setEmail]= useState('')
   const[password,setPassword]= useState('')
-  const[CaptainData,setCaptainData] = useState({})
 
-  const submitHandler = (e) => {
+  const {captain,setCaptain} = useContext(CaptainDataContext)
+  const navigate = useNavigate()
+
+  const submitHandler = async(e) => {
     e.preventDefault();
     // Handle login logic here
-    setCaptainData({
+    const captain= {
       email: email,
       password: password
-    })
-    setEmail('')   //Input dalne ke baad field khali ho jaega 
-    setPassword('')
+    }
+    try{
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/login`, captain)
+    if(response.status === 200){
+      const data=response.data
+      setCaptain(data.captain) //captain context mein data set karna hai
+      localStorage.setItem('token',data.token) //local storage mein data set karna hai 
+      navigate('/captain-home') //login page par redirect karna hai 
+    }
+      setEmail('')   //Input dalne ke baad field khali ho jaega 
+      setPassword('')
+    } catch (error) {
+      console.error('Login failed:', error);
+      alert("Login failed: " + (error.response?.data?.message || "Internal server error"));
+    }
+   
   }
   return (
     <div  className='p-7 h-screen flex flex-col justify-between'>

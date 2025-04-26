@@ -1,3 +1,4 @@
+
 const mongoose= require('mongoose');
 
 const rideSchema=new mongoose.Schema({    
@@ -26,16 +27,20 @@ const rideSchema=new mongoose.Schema({
         enum: ['pending', 'accepted', 'ongoing','completed', 'cancelled'],
         default: 'pending',
     },
-//duration taken in seconds
-   // duration:{
-      //  type: Number,
+    //duration taken in seconds
+   duration:{
+       type: Number,
        
-   // },
+   },
 //Distance covered in metres
-   // distance:{
-      //  type: Number,
+   distance:{
+        type: Number,
         
-   // }
+    },
+    signature:{
+        type: String,
+        
+    },
 
 })
 module.exports=mongoose.model('Ride',rideSchema);
