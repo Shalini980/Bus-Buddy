@@ -1,35 +1,29 @@
 import React from 'react'
 
-const LocationSearchPanel = () => {
+const LocationSearchPanel = (props) => {
+  console.log(props);
+  //sample array for location
+  const locations = [
+    "Shimla Bypass Road, Vikasnagar, Dehra Dun, Uttarakhand",
+    "Clock Tower Paltan Bazaar Road, Dehra Dun, Uttarakhand",
+    "ISBT, Bus Station, Dehradun",
+    "Graphic Era University, Clement Town, Dehradun",
+  ]
   return (
     <div>
-      <div className='flex gap-4 items-center my-4 justify-start'>
+      {
+      locations.map(function(elem,idx){
+        return <div key={idx} onClick ={()=>{
+          props.setVechilePanel(true)
+          props.setPanelOpen(false)
+        }} className='flex gap-4 border-2 p-3 border-gray-50 active:border-black rounded-xl items-center my-2 justify-start'>
         <h2 className='bg-[#eee] h-8 mx-1 flex items-center justify-center w-12 rounded-full'>
           <i className="ri-map-pin-fill"></i>
         </h2>
-        <h4>Shimla Bypass Road, Vikasnagar, Dehra Dun, Uttarakhand</h4>
+        <h4 className='font-medium'>{elem}</h4>
       </div>
-
-      <div className='flex gap-4 items-center my-4 justify-start'>
-        <h2 className='bg-[#eee] h-8 mx-1 flex items-center justify-center w-12 rounded-full'>
-          <i className="ri-map-pin-fill"></i>
-        </h2>
-        <h4>Clock Tower Paltan Bazaar Road, Dehra Dun, Uttarakhand</h4>
-      </div>
-
-      <div className='flex gap-4 items-center my-4 justify-start'>
-        <h2 className='bg-[#eee] h-8 mx-1 flex items-center justify-center w-12 rounded-full'>
-          <i className="ri-bus-fill"></i>
-        </h2>
-        <h4>ISBT, Bus Station, Dehradun</h4>
-      </div>
-
-      <div className='flex gap-4 items-center my-4 justify-start'>
-        <h2 className='bg-[#eee] h-8 mx-1 flex items-center justify-center w-12 rounded-full'>
-          <i className="ri-school-line"></i>
-        </h2>
-        <h4>Graphic Era University, Clement Town, Dehradun</h4>
-      </div>
+      })
+    }
     </div>
   )
 }

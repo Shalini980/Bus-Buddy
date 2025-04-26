@@ -3,13 +3,19 @@ import {useGSAP} from '@gsap/react';
 import gsap from 'gsap';
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../components/LocationSearchPanel';
+import VechilePanel from '../components/VechilePanel';
+import ConfirmRide from '../components/ConfirmRide';
 
 const Home = () => {
   const [pickup,setPickup]=useState('')
   const [destination,setDestination]=useState('')
   const [panelOpen,setPanelOpen]=useState(false)
+  const vechilePanelRef = useRef(null)
+  const confirmRidePanelRef = useRef(null)
   const panelRef = useRef(null)
   const panelCloseRef = useRef(null)
+  const [vechilePanel,setVechilePanel] =useState(false)
+  const [confirmRidePanel,setConfirmRidePanel] =useState(false)
 
   const submitHandler =(e)=>{
     e.preventDefault()
@@ -33,12 +39,35 @@ const Home = () => {
       }
   },[panelOpen])
 
+  useGSAP(function(){
+      if(vechilePanel){
+        gsap.to(vechilePanelRef.current,{
+          transform:'translateY(0)'
+        })
+      }else{
+        gsap.to(vechilePanelRef.current,{
+          transform:'translateY(100%)'
+        })
+      }
+  }, [vechilePanel])
+
+  useGSAP(function(){
+    if(confirmRidePanel){
+      gsap.to(confirmRidePanelRef.current,{
+        transform:'translateY(0)'
+      })
+    }else{
+      gsap.to(confirmRidePanelRef.current,{
+        transform:'translateY(100%)'
+      })
+    }
+  }, [confirmRidePanel])
 
   return (
-    <div className='h-screen relative'>
+    <div className='h-screen relative overflow-hidden'>
       <img className='w-16 absolute left-5 top-5' src="https://download.logo.wine/logo/Uber/Uber-Logo.wine.png"/>
-      <div>
-          <img className = 'h-full w-full object cover' src="https://miro.medium.com/max/1280/0*gwMx05pqII5hbfmX.gif" alt="" />    
+      <div className = 'h-screen w-screen'>
+          <img src="https://miro.medium.com/max/1280/0*gwMx05pqII5hbfmX.gif" alt="" />    
       </div>
       <div className='flex flex-col justify-end h-screen absolute top-0 w-full'>
           <div className ='h-[30%] p-6 bg-white relative'>
@@ -76,8 +105,15 @@ const Home = () => {
           </form>
           </div>
           <div ref={panelRef} className='bg-white h-0'>
-                      <LocationSearchPanel/>
+                      <LocationSearchPanel panelOpen={panelOpen} setPanelOpen={setPanelOpen} setVechilePanel={setVechilePanel}/>
           </div>
+      </div>
+
+      <div ref={vechilePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 p-10 pt-14'>
+              <VechilePanel setConfirmRidePanel={setConfirmRidePanel} setVechilePanel={setVechilePanel}/>
+      </div>
+      <div ref={confirmRidePanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 p-10 pt-14'>
+              <ConfirmRide/>
       </div>
     </div>
   )
