@@ -1,16 +1,22 @@
-import React from 'react';
+import React from 'react'
 
-const ConfirmRide = (props) => {
+const WaitingForDriver = (props) => {
   return (
     <div>
-      <h5
+        <h5
         className="p-1 text-center w-[93%] absolute top-0" onClick={() => {
-            props.setConfirmRidePanel(false)
+            props.setWaitingForDriver(false)
             }}><i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i>
       </h5>
-      <h3 className="text-2xl font-semibold mb-5">
-        Confirm your Ride
-      </h3>
+      
+      <div className='flex items-center justify-center'>
+        <img className ='h-10' src="https://th.bing.com/th/id/OIP.oRfBSGPGjvPVUh8SyVvJ-gHaGM?w=860&h=720&rs=1&pid=ImgDetMain"/>
+        <div className='text-right'>
+            <h2 className='text-lg'>Subhash Pal</h2>
+            <h4 className = 'text-xl font-semibold -mt-2'>UK07 AB 2098</h4>
+            <p className='text-sm text-gray-600'>College bus</p>
+        </div> 
+      </div>
 
       <div className='flex gap-2 justify-between flex-col items-center'>
         <img className='h-20' src="https://th.bing.com/th/id/OIP.oRfBSGPGjvPVUh8SyVvJ-gHaGM?w=860&h=720&rs=1&pid=ImgDetMain" alt=""/>
@@ -45,7 +51,7 @@ const ConfirmRide = (props) => {
         }} className='w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg'>Confirm</button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ConfirmRide;
+export default WaitingForDriver
