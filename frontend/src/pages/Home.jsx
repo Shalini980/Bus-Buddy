@@ -1,15 +1,10 @@
-<<<<<<< HEAD
-import React from 'react'
 
-const Home = () => {
-  return (
-    <div>Home</div>
-=======
 import React, {useState, useRef} from 'react'
 import {useGSAP} from '@gsap/react';
 import gsap from 'gsap';
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../components/LocationSearchPanel';
+import logo from '../assets/logo.png'
 
 const Home = () => {
   const [pickup,setPickup]=useState('')
@@ -42,22 +37,22 @@ const Home = () => {
 
 
   return (
-    <div className='h-screen relative'>
-      <img className='w-16 absolute left-5 top-5' src="https://download.logo.wine/logo/Uber/Uber-Logo.wine.png"/>
+    <div className='h-screen relative bg-white' >
+        <img className="w-26" src={logo} alt="logo's photo" />
       <div>
           <img className = 'h-full w-full object cover' src="https://miro.medium.com/max/1280/0*gwMx05pqII5hbfmX.gif" alt="" />    
       </div>
       <div className='flex flex-col justify-end h-screen absolute top-0 w-full'>
-          <div className ='h-[30%] p-6 bg-white relative'>
-          <h5 
+      <div className="h-[30%] p-4 bg-[#e9f8fd] relative">
+         <h5 
           ref={panelCloseRef}
           onClick={()=>{
             setPanelOpen(false)
           }}
-          className='absolute opacity -0 right-6 top-6 text-2xl'>
+          className='absolute opacity-0 right-6 top-6 text-2xl'>
             <i className ="ri-arrow-down-line"></i></h5>
           <h4
-               className='text-2xl font-semibold'>Find a trip</h4>
+               className='text-2xl font-semibold'>Find A Trip</h4>
           <form onSubmit={(e)=>{
             submitHandler(e)
           }}>
@@ -79,7 +74,7 @@ const Home = () => {
               onChange={(e)=>{
                   setDestination(e.target.value)
               }}
-              className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3' type="text" placeholder='Enter your destination'/>
+              className='bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3 ' type="text" placeholder='Enter your destination'/>
           </form>
           </div>
           <div ref={panelRef} className='bg-white h-0'>
@@ -87,7 +82,6 @@ const Home = () => {
           </div>
       </div>
     </div>
->>>>>>> e4c3652dc838b5239839e2cd8de41e227d7d9867
   )
 }
 
