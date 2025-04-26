@@ -24,4 +24,13 @@ router.get(
     authMiddleware.authUser, // Middleware to check if user is authenticated
     mapController.getAutoCompleteSuggestions // Call the controller method to get suggestions
 )
+router.get(
+    '/check-route-deviation',
+    query('currentLocation').isString().withMessage('Current location is required'),
+    query('destination').isString().withMessage('Destination is required'),
+    authMiddleware.authUser,
+    mapController.checkRouteDeviation
+  );
+  
+  
 module.exports=router; // Export the router for use in other parts of the application

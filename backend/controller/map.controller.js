@@ -47,3 +47,35 @@ module.exports.getCoordinates = async (req, res,next) => {
             res.status(500).json({ message: 'Internal server error' }); 
         }
     }
+    module.exports.checkRouteDeviation = async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+    
+        const { currentLocation, destination } = req.query;
+    
+        try {
+            const distanceData = await mapService.getDistanceTime(currentLocation, destination);
+    
+            const distanceInMeters = distanceData.distance.value;
+            const distanceInKm = distanceInMeters / 1000;
+    
+            // Set a tolerance limit (Example: more than 2 km off = alert)
+            if (distanceInKm > 2) {
+                return res.status(200).json({ 
+                    alert: true, 
+                    message: 'Bus is deviating from the expected route!' 
+                });
+            }
+    
+            res.status(200).json({ 
+                alert: false, 
+                message: 'Bus is on the correct route.' 
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Internal server error' });
+        }
+    };
+    
