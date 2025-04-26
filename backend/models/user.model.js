@@ -16,7 +16,6 @@ const userSchema= new mongoose.Schema({
     },
     email: { type: String, required: true, unique: true , minlength:[5,'Email must at least be 5 characters long.']},
     password: { type: String, required: true,select: false},
-    studentid: { type:String , required:true },
     socketId: {type: String} //for live tracking 
 })
 

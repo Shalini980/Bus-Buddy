@@ -1,9 +1,11 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import React, { useState,useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom' // <-- FIXED HERE
 import logo from '../assets/logo.png'
-import { useState } from 'react'
+import {CaptainDataContext} from '../context/CaptainContext'
+import axios from 'axios'
 
 const CaptainSignup = () => {
+  const navigate = useNavigate()
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
   const [firstName,setFirstName] = useState('')
@@ -11,29 +13,38 @@ const CaptainSignup = () => {
   const [busno,setBusno] = useState('')
   const [plate,setPlate] = useState('')
   const [capacity,setCapacity] = useState('')
-  const [userData,setUserData] = useState({})
+  const {captain,setCaptain} = useContext(CaptainDataContext)
 
-  const submitHandler = (e) => {
+  const submitHandler = async(e) => {
     e.preventDefault(); //to prevent reloading of page
-    setUserData({
-      username:{
-        firstName: firstName,
-        lastName: lastName,
+    const newCaptain ={
+      fullname:{
+        firstname: firstName,
+        lastname: lastName,
       },
       email: email,
       password: password,
-      busno: busno,
-      plate: plate,
-      capacity: capacity
-    })
-    console.log(userData)
-        setEmail('')   //Input dalne ke baad field khali ho jaega
-        setPassword('')
-        setFirstName('')
-        setLastName('')
-        setBusno('')
-        setPlate('')
-        setCapacity('')
+      bus:{
+        busno: busno,
+        plate: plate,
+        capacity: capacity
+      }
+    }
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captains/register`, newCaptain)
+   
+    try{
+    if(response.status === 201){
+      const data=response.data
+      console.log(data)
+      setCaptain(data.captain) //captain context mein data set karna hai
+      localStorage.setItem('token',data.token) //local storage mein data set karna hai
+      navigate('/captain-home') //login page par redirect karna hai
+    }
+  } catch (error) {
+    console.error('Signup failed:', error);
+    alert("Signup failed: " + (error.response?.data?.message || "Internal server error"));
+
+  }
   }
   return (
     <div  className='p-7 h-screen flex flex-col justify-between'>
@@ -106,7 +117,7 @@ const CaptainSignup = () => {
           onChange={(e)=>{setPassword(e.target.value)}}
           placeholder='example123'/> 
 
-          <button className='bg-[#111] text-white font-semibold mb-5 rounded px-4 py-2 w-full text-lg paxeholder:textbase'>Sign Up</button>
+          <button className='bg-[#111] text-white font-semibold mb-5 rounded px-4 py-2 w-full text-lg paxeholder:textbase'>Create Account</button>
                   <p className='text-center'> Already Registered? <Link to='/captain-login' className='text-blue-600'> Login Here.</Link> </p>
        </form>
     </div>
@@ -114,7 +125,7 @@ const CaptainSignup = () => {
     
   <div>
       <p className='text-xs leading-tight' >By proceeding, you consent to get SMS messages from Bus-Buddy to the number provided. </p>
-    <Link to='/captain-login' className='bg-[#10b461] flex items-center justify-center text-white font-semibold mb-7 rounded px-4 py-2 w-full text-lg paxeholder:textbase'>
+    <Link to='/login' className='bg-[#10b461] flex items-center justify-center text-white font-semibold mb-7 rounded px-4 py-2 w-full text-lg paxeholder:textbase'>
     Sign in as Student</Link>
   </div>
   </div>
